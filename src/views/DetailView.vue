@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <div v-if="employee" class="employee-detail">
-            <div class="photo" :style="{ backgroundColor: '#B5EAE0' }"></div>
+            <div class="avatar" :style="{ backgroundColor: '#B5EAE0' }"></div>
             <div class="info-section">
                 <div class="detail-item">
                     <span class="label">Employee Name:</span>
@@ -101,7 +101,7 @@ onMounted(async () => {
     gap: 3rem;
 }
 
-.photo {
+.avatar {
     width: 350px;
     height: 350px;
     border-radius: 4px;
