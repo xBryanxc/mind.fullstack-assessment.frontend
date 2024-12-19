@@ -5,6 +5,8 @@ const config: IConfig = {
     endpoints: {
         getAllEmployees: '/Employee/GetEmployees',
         deleteEmployee: '/Employee/DeleteEmployee',
+        createEmployee: '/Employee/CreateEmployee',
+        getAllDepartments: '/Department/GetDepartments',
     }
 }
 

@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="actions">
-      <button class="view-details">View Details</button>
+      <BaseButton text="View Details" />
       <button class="close-button" @click="handleDelete">✕</button>
     </div>
   </div>
@@ -27,6 +27,7 @@
 import { defineProps, PropType, defineEmits } from 'vue'
 import type Employee from '@/interfaces/IEmployee'
 import EmployeeApiService from '@/services/EmployeeApiService'
+import BaseButton from '@/components/BaseButton.vue'
 
 const props = defineProps({
     employee: {
@@ -42,7 +43,7 @@ const handleDelete = async () => {
     if (deleted) {
         emitEmployeeDeleted(props.employee.id)
     } else {
-        alert('No se pudo eliminar el empleado')
+        alert('Error deleting employee')
     }
 }
 
@@ -110,15 +111,6 @@ const emitEmployeeDeleted = (id: number) => {
   align-items: center;
 }
 
-.view-details {
-  background-color: #9ED5A0;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
 .close-button {
   background: none;
   border: none;
@@ -126,10 +118,6 @@ const emitEmployeeDeleted = (id: number) => {
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
-}
-
-.view-details:hover {
-  background-color: #8BC68D;
 }
 
 .close-button:hover {

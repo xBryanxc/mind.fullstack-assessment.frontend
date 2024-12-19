@@ -1,6 +1,7 @@
 import { ref, Ref } from 'vue'
 import IEmployee from '../interfaces/IEmployee';
 import IBaseApiResponse from '../interfaces/IBaseApiResponse';
+import { ICreateEmployee } from '../interfaces/ICreateEmployee';
 import config from '../config/config';
 
 class EmployeeApiService {
@@ -48,10 +49,31 @@ class EmployeeApiService {
             });
 
             const data: IBaseApiResponse = await response.json();
-            this.employees.value = this.employees.value.filter(emp => emp.id !== id);
             return true;
         } catch (error) {
             console.error('Error deleting employee:', error);
+            return false;
+        }
+    }
+
+    async createEmployee(employee: ICreateEmployee): Promise<boolean> {
+        try {
+            const URL = `${this.baseUrl}${config.endpoints.createEmployee}`;
+
+            const response = await fetch(URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(employee)
+            });
+
+            const data: IBaseApiResponse = await response.json();
+            await this.fetchEmployees();
+            
+            return true;
+        } catch (error) {
+            console.error('Error creating employee:', error);
             return false;
         }
     }

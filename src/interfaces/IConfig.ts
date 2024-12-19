@@ -3,6 +3,8 @@ interface IConfig {
     endpoints: {
         getAllEmployees: string;
         deleteEmployee: string;
+        createEmployee: string;
+        getAllDepartments: string;
     }
 }
 
