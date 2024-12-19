@@ -3,12 +3,19 @@
     <div class="header">
       <BaseButton text="New Employee" @click="showModal = true" />
     </div>
-    <EmployeeCard 
-      v-for="employee in employees" 
-      :key="employee.id" 
-      :employee="employee"
-      @employee-deleted="handleEmployeeDeleted"
-    />
+    
+    <div v-if="employees.length === 0" class="no-employees">
+      No employees found
+    </div>
+    
+    <template v-else>
+      <EmployeeCard 
+        v-for="employee in employees" 
+        :key="employee.id" 
+        :employee="employee"
+        @employee-deleted="handleEmployeeDeleted"
+      />
+    </template>
 
     <BaseModal 
       :show="showModal" 
@@ -165,5 +172,12 @@ textarea.form-control {
   display: flex;
   justify-content: flex-end;
   margin-top: 1rem;
+}
+
+.no-employees {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  font-size: 1.1rem;
 }
 </style>
