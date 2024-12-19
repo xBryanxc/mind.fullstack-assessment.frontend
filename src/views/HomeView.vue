@@ -34,8 +34,11 @@
         <div class="form-group">
           <label>Department</label>
           <select class="form-control" v-model="newEmployee.departmentId" required>
-            <option value="1">Department 1</option>
-            <option value="2">Department 2</option>
+            <option v-for="dept in departments" 
+                    :key="dept.id" 
+                    :value="dept.id">
+              {{ dept.name }}
+            </option>
           </select>
         </div>
         
@@ -58,35 +61,39 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import EmployeeApiService from '@/services/EmployeeApiService'
+import DepartmentApiService from '@/services/DepartmentApiService'
 import EmployeeCard from '@/components/EmployeeCard.vue'
 import BaseButton from '@/components/BaseButton.vue'
 import BaseModal from '@/components/BaseModal.vue'
 import type { ICreateEmployee } from '@/interfaces/ICreateEmployee'
 
-const service = new EmployeeApiService()
-const employees = service.getEmployees()
+const employeeService = new EmployeeApiService()
+const departmentService = new DepartmentApiService()
+
+const employees = employeeService.getEmployees()
+const departments = departmentService.getDepartments()
+
 const showModal = ref(false)
 
 const newEmployee = ref<ICreateEmployee>({
     firstName: '',
     lastName: '',
     hireDate: '',
-    departmentId: 1,
+    departmentId: 0,
     phone: '',
     address: ''
 })
 
 const handleSubmit = async () => {
-    const created = await service.createEmployee(newEmployee.value)
+    const created = await employeeService.createEmployee(newEmployee.value)
     if (created) {
         showModal.value = false
         newEmployee.value = {
             firstName: '',
             lastName: '',
-            departmentId: 1,
+            departmentId: 0,
             hireDate: '',
             phone: '',
             address: ''
@@ -98,11 +105,14 @@ const handleSubmit = async () => {
 
 const handleEmployeeDeleted = (id: number) => {
     console.log('Employee deleted:', id)
-    service.fetchEmployees()
+    employeeService.fetchEmployees()
 }
 
-onMounted(() => {
-    service.fetchEmployees()
+onMounted(async () => {
+    await Promise.all([
+        employeeService.fetchEmployees(),
+        departmentService.fetchDepartments()
+    ])
 })
 </script>
 
