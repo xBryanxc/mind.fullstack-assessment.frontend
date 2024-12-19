@@ -46,7 +46,7 @@
                                 {{ dept.name }}
                             </option>
                         </select>
-                        <BaseButton text="Update" />
+                        <BaseButton text="Update" @click="handleUpdateDepartment" />
                     </div>
                 </div>
             </div>
@@ -58,6 +58,7 @@
 import { ref, onMounted, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import type Employee from '@/interfaces/IEmployee'
+import type { IUpdateEmployee } from '@/interfaces/IUpdateEmployee'
 import EmployeeApiService from '@/services/EmployeeApiService'
 import DepartmentApiService from '@/services/DepartmentApiService'
 import BaseButton from '@/components/BaseButton.vue'
@@ -69,6 +70,24 @@ const employee = ref<Employee | null>(null)
 const departments = departmentService.getDepartments()
 const selectedDepartmentId = ref<number>(0)
 
+const handleUpdateDepartment = async () => {
+    if (employee.value && selectedDepartmentId.value !== employee.value.departmentId) {
+        const updateData: IUpdateEmployee = {
+            id: employee.value.id,
+            departmentId: selectedDepartmentId.value
+        }
+        
+        const updated = await employeeService.updateEmployee(updateData)
+        if (updated) {
+            const refreshedEmployee = await employeeService.getEmployeeById(employee.value.id)
+            if (refreshedEmployee) {
+                employee.value = refreshedEmployee
+            }
+        } else {
+            alert('Error updating department')
+        }
+    }
+}
 
 watch(employee, (newEmployee) => {
     if (newEmployee) {

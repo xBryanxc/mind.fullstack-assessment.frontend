@@ -2,6 +2,7 @@ import { ref, Ref } from 'vue'
 import IEmployee from '../interfaces/IEmployee';
 import IBaseApiResponse from '../interfaces/IBaseApiResponse';
 import { ICreateEmployee } from '../interfaces/ICreateEmployee';
+import { IUpdateEmployee } from '../interfaces/IUpdateEmployee';
 import config from '../config/config';
 
 class EmployeeApiService {
@@ -94,6 +95,26 @@ class EmployeeApiService {
         } catch (error) {
             console.error('Error fetching employee:', error);
             return null;
+        }
+    }
+
+    async updateEmployee(updateData: IUpdateEmployee): Promise<boolean> {
+        try {
+            const URL = `${this.baseUrl}${config.endpoints.updateEmployee}`;
+
+            const response = await fetch(URL, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            const data: IBaseApiResponse = await response.json();
+            return true;
+        } catch (error) {
+            console.error('Error updating employee:', error);
+            return false;
         }
     }
 }

@@ -7,6 +7,7 @@ const config: IConfig = {
         deleteEmployee: '/Employee/DeleteEmployee',
         createEmployee: '/Employee/CreateEmployee',
         getEmployeeById: '/Employee/GetEmployeeById',
+        updateEmployee: '/Employee/UpdateEmployee',
         getAllDepartments: '/Department/GetDepartments',
     }
 }
