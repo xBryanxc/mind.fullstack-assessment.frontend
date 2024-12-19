@@ -4,6 +4,7 @@ interface IConfig {
         getAllEmployees: string;
         deleteEmployee: string;
         createEmployee: string;
+        getEmployeeById: string;
         getAllDepartments: string;
     }
 }

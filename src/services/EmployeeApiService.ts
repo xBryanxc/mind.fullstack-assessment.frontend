@@ -77,5 +77,24 @@ class EmployeeApiService {
             return false;
         }
     }
+
+    async getEmployeeById(id: number): Promise<IEmployee | null> {
+        try {
+            const URL = `${this.baseUrl}${config.endpoints.getEmployeeById}/${id}`;
+
+            const response = await fetch(URL, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            const data: IBaseApiResponse = await response.json();
+            return data.result as IEmployee;
+        } catch (error) {
+            console.error('Error fetching employee:', error);
+            return null;
+        }
+    }
 }
 export default EmployeeApiService;

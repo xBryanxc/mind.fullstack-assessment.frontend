@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="actions">
-      <BaseButton text="View Details" />
+      <BaseButton text="View Details" @click="handleViewDetails" />
       <button class="close-button" @click="handleDelete">✕</button>
     </div>
   </div>
@@ -25,10 +25,12 @@
 
 <script lang="ts" setup>
 import { defineProps, PropType, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
 import type Employee from '@/interfaces/IEmployee'
 import EmployeeApiService from '@/services/EmployeeApiService'
 import BaseButton from '@/components/BaseButton.vue'
 
+const router = useRouter()
 const props = defineProps({
     employee: {
         type: Object as PropType<Employee>,
@@ -45,6 +47,13 @@ const handleDelete = async () => {
     } else {
         alert('Error deleting employee')
     }
+}
+
+const handleViewDetails = () => {
+    router.push({
+        name: 'employee-detail',
+        params: { id: props.employee.id }
+    })
 }
 
 const emit = defineEmits(['employeeDeleted']);
