@@ -1,18 +1,28 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+  <div>
+    <EmployeeCard 
+      v-for="employee in employees" 
+      :key="employee.id" 
+      :employee="employee"
+      @employee-deleted="handleEmployeeDeleted"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+<script lang="ts" setup>
+import { onMounted } from 'vue'
+import EmployeeApiService from '@/services/EmployeeApiService'
+import EmployeeCard from '@/components/EmployeeCard.vue'
 
-export default defineComponent({
-  name: 'HomeView',
-  components: {
-    HelloWorld,
-  },
-});
+const service = new EmployeeApiService()
+const employees = service.getEmployees()
+
+const handleEmployeeDeleted = (id: number) => {
+    console.log('Employee deleted:', id)
+    service.fetchEmployees()
+}
+
+onMounted(() => {
+    service.fetchEmployees()
+})
 </script>
