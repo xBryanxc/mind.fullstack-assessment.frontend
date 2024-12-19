@@ -118,9 +118,10 @@ const emitEmployeeDeleted = (id: number) => {
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0.5rem;
+  color: red;
 }
 
 .close-button:hover {
-  color: #333;
+  color: #9e0303;
 }
 </style> 
